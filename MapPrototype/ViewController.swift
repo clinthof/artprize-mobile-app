@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
+        
         let coordinate = CLLocationCoordinate2D(latitude: 42.949, longitude: -85.694)
         let span = MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025)
         let region = MKCoordinateRegion(center: coordinate, span: span)
@@ -33,14 +35,45 @@ class ViewController: UIViewController {
     
     func createAnnotations(locations: [[String: Any]]) {
         for location in locations {
-            let annotation = MKPointAnnotation()
-            annotation.title = location["venue"] as? String
-            annotation.subtitle = location["address"] as? String
-            annotation.coordinate = CLLocationCoordinate2D(latitude: location["latitude"] as! CLLocationDegrees, longitude: location["longitude"] as! CLLocationDegrees)
+            let annotation = MKPointAnnotation(
+                __coordinate: CLLocationCoordinate2D(latitude: location["latitude"] as! CLLocationDegrees, longitude: location["longitude"] as! CLLocationDegrees),
+                title: location["venue"] as? String,
+                subtitle: location["address"] as? String
+            )
             mapView.addAnnotation(annotation)
         }
-        
     }
 
 }
 
+extension ViewController: MKMapViewDelegate {
+    func mapView(
+        _ mapView: MKMapView,
+        viewFor annotation: MKAnnotation
+    ) -> MKAnnotationView? {
+        let identifier = "artwork"
+        var view: MKMarkerAnnotationView
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(
+          withIdentifier: identifier) as? MKMarkerAnnotationView {
+          dequeuedView.annotation = annotation
+          view = dequeuedView
+        } else {
+          view = MKMarkerAnnotationView(
+            annotation: annotation,
+            reuseIdentifier: identifier)
+          view.canShowCallout = true
+          view.calloutOffset = CGPoint(x: -5, y: 5)
+          view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        return view
+    }
+    
+    func mapView(
+      _ mapView: MKMapView,
+      annotationView view: MKAnnotationView,
+      calloutAccessoryControlTapped control: UIControl
+    ) {
+        print("callout clicked")
+    }
+
+}
