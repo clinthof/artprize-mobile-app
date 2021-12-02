@@ -16,14 +16,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tDs-Ig-5hA">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="935"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tDs-Ig-5hA">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                             </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tDs-Ig-5hA" secondAttribute="bottom" constant="-43" id="K7F-rJ-gsh"/>
+                            <constraint firstAttribute="bottom" secondItem="tDs-Ig-5hA" secondAttribute="bottom" id="ZMa-Ie-sme"/>
                             <constraint firstItem="tDs-Ig-5hA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZwC-At-euu"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tDs-Ig-5hA" secondAttribute="trailing" id="dXo-Bw-OVX"/>
                             <constraint firstItem="tDs-Ig-5hA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-44" id="owS-6H-xAn"/>
