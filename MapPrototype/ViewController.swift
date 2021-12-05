@@ -143,6 +143,7 @@ extension ViewController: MKMapViewDelegate {
           view.canShowCallout = true
           view.calloutOffset = CGPoint(x: -5, y: 5)
           view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            view.leftCalloutAccessoryView = UIButton(type: .contactAdd)
         }
         return view
     }
@@ -152,7 +153,11 @@ extension ViewController: MKMapViewDelegate {
       annotationView view: MKAnnotationView,
       calloutAccessoryControlTapped control: UIControl
     ) {
-        routeToVenue(view.annotation!.coordinate)
+        if control == view.leftCalloutAccessoryView {
+            routeToVenue(view.annotation!.coordinate)
+        } else {
+            print("Right callout accessory tapped")
+        }
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
