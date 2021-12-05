@@ -1,1 +1,1 @@
-# 357-semester-project
+# ArtPrize Mobile Application
