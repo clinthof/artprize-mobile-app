@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     
     func setUpLocationManager() {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest // harder on battery
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
     
@@ -52,18 +52,19 @@ class ViewController: UIViewController {
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
             centerOnUserLocation()
+            locationManager.startUpdatingLocation()
             break
         case .denied:
-            // show alert instructing how to turn on permissions
+            print("User denied request for location services")
             break
         case .restricted:
-            // show an alert w/ explanation
+            print("User's location services are restricted")
             break
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
             break
         @unknown default:
-            fatalError()
+            print("Unknown/other location permissions (fatal)")
         }
     }
     
@@ -84,6 +85,29 @@ class ViewController: UIViewController {
             mapView.addAnnotation(annotation)
         }
     }
+    
+    func routeToVenue(_ venue: CLLocationCoordinate2D) {
+        guard let currentLocation = locationManager.location?.coordinate else {
+            return
+        }
+        
+        let request = MKDirections.Request()
+        let startPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+        let endPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: venue.latitude, longitude: venue.longitude))
+        
+        request.source = MKMapItem(placemark: startPoint)
+        request.destination = MKMapItem(placemark: endPoint)
+        
+        let path = MKDirections(request: request)
+        path.calculate { response, error in
+            guard let response = response else {
+                print("Error")
+                return
+            }
+            let route = response.routes[0]
+            self.mapView.addOverlay(route.polyline)
+        }
+    }
 }
 
 extension ViewController: MKMapViewDelegate {
@@ -91,11 +115,11 @@ extension ViewController: MKMapViewDelegate {
         _ mapView: MKMapView,
         viewFor annotation: MKAnnotation
     ) -> MKAnnotationView? {
-        let identifier = "artwork"
-        var view: MKMarkerAnnotationView
         if annotation is MKUserLocation {
             return nil
         }
+        let identifier = "artwork"
+        var view: MKMarkerAnnotationView
         if let dequeuedView = mapView.dequeueReusableAnnotationView(
           withIdentifier: identifier) as? MKMarkerAnnotationView {
           dequeuedView.annotation = annotation
@@ -117,18 +141,32 @@ extension ViewController: MKMapViewDelegate {
       calloutAccessoryControlTapped control: UIControl
     ) {
         print("callout clicked")
+//        print(view.annotation?.coordinate ?? "home")
+        routeToVenue(view.annotation!.coordinate)
     }
-
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        // Set the color for the line
+        renderer.strokeColor = .red
+        return renderer
+    }
+    
 }
 
 extension ViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // code here
+        guard let location = locations.last else {
+            return
+        }
+        let lastKnownLocation = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion.init(center: lastKnownLocation, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+        mapView.setRegion(region, animated: true)
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        // code here
+        checkLocationAuthorization()
     }
     
 }
