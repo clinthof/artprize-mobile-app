@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     private let locationManager = CLLocationManager()
     let regionInMeters: Double = 1000
+    var routeArray: [MKDirections] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,16 +98,27 @@ class ViewController: UIViewController {
         
         request.source = MKMapItem(placemark: startPoint)
         request.destination = MKMapItem(placemark: endPoint)
+        request.transportType = .walking
         
         let path = MKDirections(request: request)
+        
+        resetRoute(path)
+        
         path.calculate { response, error in
             guard let response = response else {
-                print("Error")
+                print("Error: \(String(describing: error))")
                 return
             }
             let route = response.routes[0]
             self.mapView.addOverlay(route.polyline)
+            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
         }
+    }
+    
+    func resetRoute(_ route: MKDirections) {
+        mapView.removeOverlays(mapView.overlays)
+        routeArray.append(route)
+        routeArray.map { $0.cancel() }
     }
 }
 
@@ -140,8 +152,6 @@ extension ViewController: MKMapViewDelegate {
       annotationView view: MKAnnotationView,
       calloutAccessoryControlTapped control: UIControl
     ) {
-        print("callout clicked")
-//        print(view.annotation?.coordinate ?? "home")
         routeToVenue(view.annotation!.coordinate)
     }
     
