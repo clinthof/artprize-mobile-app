@@ -111,7 +111,7 @@ class ViewController: UIViewController {
             }
             let route = response.routes[0]
             self.mapView.addOverlay(route.polyline)
-            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: 80.0, bottom: 0.0, right: 80.0), animated: true)
         }
     }
     
@@ -162,7 +162,6 @@ extension ViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        // Set the color for the line
         renderer.strokeColor = .red
         return renderer
     }
