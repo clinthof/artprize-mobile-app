@@ -87,19 +87,19 @@ class ViewController: UIViewController {
         }
     }
     
-    func routeToVenue(_ venue: CLLocationCoordinate2D) {
+    func routeToVenue(_ venue: CLLocationCoordinate2D, _ name: String) {
         guard let currentLocation = locationManager.location?.coordinate else {
             print("Error: No user location available.  Check device settings.")
             return
         }
+        let venueCoordinates = CLLocationCoordinate2DMake(venue.latitude, venue.longitude)
         
         let request = MKDirections.Request()
         let startPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
-        let endPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: venue.latitude, longitude: venue.longitude))
+        let endPoint = MKPlacemark(coordinate: venueCoordinates)
         
         request.source = MKMapItem(placemark: startPoint)
         request.destination = MKMapItem(placemark: endPoint)
-        request.transportType = .walking
         
         let path = MKDirections(request: request)
         
@@ -115,15 +115,11 @@ class ViewController: UIViewController {
             self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: 100.0, bottom: 0.0, right: 100.0), animated: true)
         }
         
-        let query = "http://maps.apple.com/?ll\(venue.latitude),\(venue.longitude)"
+        let venuePlacemark = MKPlacemark(coordinate: venueCoordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: venuePlacemark)
         
-        if let url = NSURL(string: query) {
-            if UIApplication.shared.canOpenURL(url as URL) {
-                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
-            } else {
-                print("Error opening URL")
-            }
-        }
+        mapItem.name = name
+        mapItem.openInMaps(launchOptions: nil)
     }
     
     func resetRoute(_ route: MKDirections) {
@@ -166,7 +162,7 @@ extension ViewController: MKMapViewDelegate {
       calloutAccessoryControlTapped control: UIControl
     ) {
         if control == view.leftCalloutAccessoryView {
-            routeToVenue(view.annotation!.coordinate)
+            routeToVenue(view.annotation!.coordinate, (view.annotation?.title)!!)
         } else if control == view.rightCalloutAccessoryView {
             print("Right callout accessory tapped")
         }
