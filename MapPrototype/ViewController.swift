@@ -89,6 +89,7 @@ class ViewController: UIViewController {
     
     func routeToVenue(_ venue: CLLocationCoordinate2D) {
         guard let currentLocation = locationManager.location?.coordinate else {
+            print("Error: No user location available.  Check device settings.")
             return
         }
         
@@ -111,7 +112,17 @@ class ViewController: UIViewController {
             }
             let route = response.routes[0]
             self.mapView.addOverlay(route.polyline)
-            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: 80.0, bottom: 0.0, right: 80.0), animated: true)
+            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: 100.0, bottom: 0.0, right: 100.0), animated: true)
+        }
+        
+        let query = "http://maps.apple.com/?ll\(venue.latitude),\(venue.longitude)"
+        
+        if let url = NSURL(string: query) {
+            if UIApplication.shared.canOpenURL(url as URL) {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            } else {
+                print("Error opening URL")
+            }
         }
     }
     
@@ -119,6 +130,7 @@ class ViewController: UIViewController {
         mapView.removeOverlays(mapView.overlays)
         routeArray.append(route)
         routeArray.map { $0.cancel() }
+        routeArray.removeSubrange(0..<routeArray.count)
     }
 }
 
@@ -155,7 +167,7 @@ extension ViewController: MKMapViewDelegate {
     ) {
         if control == view.leftCalloutAccessoryView {
             routeToVenue(view.annotation!.coordinate)
-        } else {
+        } else if control == view.rightCalloutAccessoryView {
             print("Right callout accessory tapped")
         }
     }
