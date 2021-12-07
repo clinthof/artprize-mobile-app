@@ -39,9 +39,8 @@ struct Artwork {
     let medium : String?
     let width : String?
     let height : String?
-    let venue : Venue?
     
-    init(title: String?, image: UIImage?, artist: String?, description: String?, medium: String?, width: String?, height: String?, venue: Venue?) {
+    init(title: String?, image: UIImage?, artist: String?, description: String?, medium: String?, width: String?, height: String?) {
         self.title = title
         self.image = image
         self.artist = artist
@@ -49,8 +48,7 @@ struct Artwork {
         self.medium = medium
         self.width = width
         self.height = height
-        self.venue = venue
     }
     
-    init() { self.init(title: nil, image: nil, artist: nil, description: nil, medium: nil, width: nil, height: nil, venue: nil) }
+    init() { self.init(title: nil, image: nil, artist: nil, description: nil, medium: nil, width: nil, height: nil) }
 }

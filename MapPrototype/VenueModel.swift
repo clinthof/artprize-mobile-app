@@ -33,8 +33,7 @@ class VenueModel {
                     description: "Sometimes images require a great deal of planning and preparation, other times images fall into your lap. Grand Rapids # 1 &2 was an image that fell into my lap.",
                     medium: "Photography",
                     width: "24 in",
-                    height: "18.5 in",
-                    venue: self.venues[0]
+                    height: "18.5 in"
                 ),
                 Artwork(
                     title: "Together/Seperate; Beauty in a Pandemic",
@@ -43,8 +42,7 @@ class VenueModel {
                     description: "This work is a 6ft by 3ft dyptch. Acrylic.The composition works individually or together, thus the name. I felt so strong about creating something beautiful in the worst of the pandemic and the statement 'Together-Seperately' used to describe the effort of working together while in the isolation of a lock down resonated in my thoughts as a composition. Finding beauty and using so much time alone to be productive was the prompt to keep me working. I viewed this time as a precious gift from God and wanted to use it wisely.",
                     medium: "Acrylics",
                     width: "6 ft",
-                    height: "3 ft",
-                    venue: self.venues[0]
+                    height: "3 ft"
                 ),
                 Artwork(
                     title: "No Turnaround",
@@ -53,8 +51,7 @@ class VenueModel {
                     description: nil,
                     medium: "Cement, Acrylic",
                     width: "18.75 in",
-                    height: "24.75 in",
-                    venue: self.venues[0]
+                    height: "24.75 in"
                 ),
                 Artwork(
                     title: "Joy and Serenity",
@@ -63,11 +60,10 @@ class VenueModel {
                     description: nil,
                     medium: nil,
                     width: nil,
-                    height: nil,
-                    venue: self.venues[0]
+                    height: nil
                 )
             ]
         ))
-        // TODO: venues.append()
+        // TODO: venues.append() next venue
     }
 }
