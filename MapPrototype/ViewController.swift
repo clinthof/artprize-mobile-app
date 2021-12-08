@@ -71,7 +71,9 @@ class ViewController: UIViewController {
     
     func centerOnUserLocation() {
         if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            let region = MKCoordinateRegion.init(center: location,
+                                                 latitudinalMeters: regionInMeters,
+                                                 longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
         }
     }
@@ -79,7 +81,9 @@ class ViewController: UIViewController {
     func createAnnotations(locations: [[String: Any]]) {
         for location in locations {
             let annotation = MKPointAnnotation(
-                __coordinate: CLLocationCoordinate2D(latitude: location["latitude"] as! CLLocationDegrees, longitude: location["longitude"] as! CLLocationDegrees),
+                __coordinate: CLLocationCoordinate2D(
+                    latitude: location["latitude"] as! CLLocationDegrees,
+                    longitude: location["longitude"] as! CLLocationDegrees),
                 title: location["venue"] as? String,
                 subtitle: location["address"] as? String
             )
@@ -95,7 +99,8 @@ class ViewController: UIViewController {
         let venueCoordinates = CLLocationCoordinate2DMake(venue.latitude, venue.longitude)
         
         let request = MKDirections.Request()
-        let startPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+        let startPoint = MKPlacemark(
+            coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
         let endPoint = MKPlacemark(coordinate: venueCoordinates)
         
         request.source = MKMapItem(placemark: startPoint)
@@ -112,7 +117,10 @@ class ViewController: UIViewController {
             }
             let route = response.routes[0]
             self.mapView.addOverlay(route.polyline)
-            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: 100.0, bottom: 0.0, right: 100.0), animated: true)
+            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
+                                           edgePadding: UIEdgeInsets(top: 0.0, left: 100.0,
+                                                                     bottom: 0.0, right: 100.0),
+                                           animated: true)
         }
         
         let venuePlacemark = MKPlacemark(coordinate: venueCoordinates, addressDictionary: nil)
