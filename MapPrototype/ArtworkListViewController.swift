@@ -21,9 +21,7 @@ class ArtworkListViewController: UITableViewController {
         self.tableView.dataSource = self
         let model = VenueModel()
         self.artworks = model.getVenues()[0].artworks // TODO: set up for different venues
-        
-        // TODO: change title of topBar to the name of the venue
-
+        topBar.title = model.getVenues()[0].name
     }
     
     // MARK: UITableViewDataSource
@@ -54,5 +52,16 @@ class ArtworkListViewController: UITableViewController {
             cell.contentConfiguration = content
         }
         return cell
+    }
+    
+    // Pass Artwork object from relevant cell to segue destination (ArtworkViewController)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "artworkViewSegue" {
+            if let artworkVC = segue.destination as? ArtworkViewController {
+                let selectedRow = tableView.indexPathForSelectedRow!.row
+                
+                artworkVC.artwork = artworks![selectedRow]
+            }
+        }
     }
 }
