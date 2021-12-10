@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         createAnnotations(locations: venueLocations)
     }
 
+    // TODO: This will likely become redundant due to the existence of VenueModel
     let venueLocations = [
         ["venue": "Bitter End Coffee House", "address": "752 Fulton St W, Grand Rapids, MI 49504", "latitude": 42.963360, "longitude": -85.687172],
         ["venue": "Grand Rapids Public Museum", "address": "272 Pearl St NW, Grand Rapids, MI 49504", "latitude": 42.966129, "longitude": -85.676666],
