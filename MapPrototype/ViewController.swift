@@ -141,8 +141,29 @@ extension ViewController: MKMapViewDelegate {
       annotationView view: MKAnnotationView,
       calloutAccessoryControlTapped control: UIControl
     ) {
-        print("callout clicked")
+//        print("callout clicked")
 //        print(view.annotation?.coordinate ?? "home")
+    
+        print(view.annotation?.title! as Any)
+        print(view.annotation?.subtitle! as Any)
+        
+        let vc = VenueSheetViewController()
+        
+        if #available(iOS 15.0, *) {
+            if let sheet = vc.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+                sheet.prefersGrabberVisible = true
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        vc.venueNameValue = (view.annotation?.title! ?? "Venue Name")
+        vc.venueAddressValue = (view.annotation?.subtitle! ?? "Venue Address")
+        
+        self.present(vc, animated: true, completion: nil)
         routeToVenue(view.annotation!.coordinate)
     }
     
@@ -154,6 +175,7 @@ extension ViewController: MKMapViewDelegate {
     }
     
 }
+
 
 extension ViewController: CLLocationManagerDelegate {
     
