@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         createAnnotations(locations: venueLocations)
     }
 
+    // TODO: This will likely become redundant due to the existence of VenueModel
     let venueLocations = [
         ["venue": "Bitter End Coffee House", "address": "752 Fulton St W, Grand Rapids, MI 49504", "latitude": 42.963360, "longitude": -85.687172],
         ["venue": "Grand Rapids Public Museum", "address": "272 Pearl St NW, Grand Rapids, MI 49504", "latitude": 42.966129, "longitude": -85.676666],
@@ -169,11 +170,30 @@ extension ViewController: MKMapViewDelegate {
       annotationView view: MKAnnotationView,
       calloutAccessoryControlTapped control: UIControl
     ) {
-        if control == view.leftCalloutAccessoryView {
-            routeToVenue(view.annotation!.coordinate, (view.annotation?.title)!!)
-        } else if control == view.rightCalloutAccessoryView {
-            print("Right callout accessory tapped")
+//        print("callout clicked")
+//        print(view.annotation?.coordinate ?? "home")
+    
+        print(view.annotation?.title! as Any)
+        print(view.annotation?.subtitle! as Any)
+        
+        let vc = VenueSheetViewController()
+        
+        if #available(iOS 15.0, *) {
+            if let sheet = vc.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+                sheet.prefersGrabberVisible = true
+            }
+        } else {
+            // Fallback on earlier versions
         }
+        
+        vc.venueNameValue = (view.annotation?.title! ?? "Venue Name")
+        vc.venueAddressValue = (view.annotation?.subtitle! ?? "Venue Address")
+        
+        self.present(vc, animated: true, completion: nil)
+        routeToVenue(view.annotation!.coordinate)
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -183,6 +203,7 @@ extension ViewController: MKMapViewDelegate {
     }
     
 }
+
 
 extension ViewController: CLLocationManagerDelegate {
     

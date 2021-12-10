@@ -15,6 +15,7 @@
 		245D2EFB2744538C00B0D871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245D2EF92744538C00B0D871 /* LaunchScreen.storyboard */; };
 		245D2F062744538C00B0D871 /* MapPrototypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2F052744538C00B0D871 /* MapPrototypeTests.swift */; };
 		245D2F112744538C00B0D871 /* MapPrototypeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2F102744538C00B0D871 /* MapPrototypeUITests.swift */; };
+		56D25D14275EA02200698FB3 /* VenueSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		245D2F0C2744538C00B0D871 /* MapPrototypeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapPrototypeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		245D2F102744538C00B0D871 /* MapPrototypeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPrototypeUITests.swift; sourceTree = "<group>"; };
 		245D2F122744538C00B0D871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueSheetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				245D2EEE2744538A00B0D871 /* AppDelegate.swift */,
 				245D2EF02744538A00B0D871 /* SceneDelegate.swift */,
 				245D2EF22744538A00B0D871 /* ViewController.swift */,
+				56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */,
 				245D2EF42744538A00B0D871 /* Main.storyboard */,
 				245D2EF72744538C00B0D871 /* Assets.xcassets */,
 				245D2EF92744538C00B0D871 /* LaunchScreen.storyboard */,
@@ -261,6 +264,7 @@
 				245D2EF32744538A00B0D871 /* ViewController.swift in Sources */,
 				245D2EEF2744538A00B0D871 /* AppDelegate.swift in Sources */,
 				245D2EF12744538A00B0D871 /* SceneDelegate.swift in Sources */,
+				56D25D14275EA02200698FB3 /* VenueSheetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
