@@ -9,8 +9,8 @@ import UIKit
 
 class VenueSheetViewController: UIViewController {
     
-    var venueNameValue: String = "Venue Name"
-    var venueAddressValue: String = "333 Commerce Ave. SW #28 \nGrand Rapids, MI 59503"
+    var venueNameValue: String = ""
+    var venueAddressValue: String = ""
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
