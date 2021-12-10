@@ -13,15 +13,15 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     private let locationManager = CLLocationManager()
-    let regionInMeters: Double = 1000
+    let regionInMeters: Double = 1000.00
+    var routeArray: [MKDirections] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         
         checkLocationPermissions()
-    
-        createAnnotations(venues: VenueModel().getVenues())
+        createAnnotations(locations: venueLocations)
     }
     
     func setUpLocationManager() {
@@ -35,13 +35,16 @@ class ViewController: UIViewController {
             setUpLocationManager()
             checkLocationAuthorization()
         } else {
-            // show alert notifying user
+            print("Location services are disabled on current device.")
         }
     }
     
     func checkLocationAuthorization() {
         switch locationManager.authorizationStatus {
         case .authorizedAlways:
+            mapView.showsUserLocation = true
+            centerOnUserLocation()
+            locationManager.startUpdatingLocation()
             break
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
@@ -64,7 +67,9 @@ class ViewController: UIViewController {
     
     func centerOnUserLocation() {
         if let location = locationManager.location?.coordinate {
-            let region = MKCoordinateRegion.init(center: location, latitudinalMeters: regionInMeters, longitudinalMeters: regionInMeters)
+            let region = MKCoordinateRegion.init(center: location,
+                                                 latitudinalMeters: regionInMeters,
+                                                 longitudinalMeters: regionInMeters)
             mapView.setRegion(region, animated: true)
         }
     }
@@ -80,27 +85,50 @@ class ViewController: UIViewController {
         }
     }
     
-    func routeToVenue(_ venue: CLLocationCoordinate2D) {
+    func routeToVenue(_ venue: CLLocationCoordinate2D, _ name: String) {
         guard let currentLocation = locationManager.location?.coordinate else {
+            print("Error: No user location available.  Check device settings.")
             return
         }
+        let venueCoordinates = CLLocationCoordinate2DMake(venue.latitude, venue.longitude)
         
         let request = MKDirections.Request()
-        let startPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
-        let endPoint = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: venue.latitude, longitude: venue.longitude))
+        let startPoint = MKPlacemark(
+            coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+        let endPoint = MKPlacemark(coordinate: venueCoordinates)
         
         request.source = MKMapItem(placemark: startPoint)
         request.destination = MKMapItem(placemark: endPoint)
         
         let path = MKDirections(request: request)
+        
+        resetRoute(path)
+        
         path.calculate { response, error in
             guard let response = response else {
-                print("Error")
+                print("Error: \(String(describing: error))")
                 return
             }
             let route = response.routes[0]
             self.mapView.addOverlay(route.polyline)
+            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
+                                           edgePadding: UIEdgeInsets(top: 0.0, left: 100.0,
+                                                                     bottom: 0.0, right: 100.0),
+                                           animated: true)
         }
+        
+        let venuePlacemark = MKPlacemark(coordinate: venueCoordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: venuePlacemark)
+        
+        mapItem.name = name
+        mapItem.openInMaps(launchOptions: nil)
+    }
+    
+    func resetRoute(_ route: MKDirections) {
+        mapView.removeOverlays(mapView.overlays)
+        routeArray.append(route)
+        routeArray.map { $0.cancel() }
+        routeArray.removeSubrange(0..<routeArray.count)
     }
 }
 
@@ -159,7 +187,6 @@ extension ViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        // Set the color for the line
         renderer.strokeColor = .red
         return renderer
     }
@@ -179,6 +206,10 @@ extension ViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkLocationAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error: \(String(describing: error))")
     }
     
 }
