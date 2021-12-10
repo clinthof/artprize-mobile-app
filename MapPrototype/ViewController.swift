@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     private let locationManager = CLLocationManager()
-    let regionInMeters: Double = 1000
+    let regionInMeters: Double = 1000.00
     var routeArray: [MKDirections] = []
     
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
             setUpLocationManager()
             checkLocationAuthorization()
         } else {
-            // show alert notifying user
+            print("Location services are disabled on current device.")
         }
     }
     
