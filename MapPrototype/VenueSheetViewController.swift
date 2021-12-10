@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class VenueSheetViewController: UIViewController {
 
@@ -24,6 +25,53 @@ class VenueSheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func routeToVenue(venue: Venue) {
+//        guard let currentLocation = locationManager.location?.coordinate else {
+//            print("Error: No user location available.  Check device settings.")
+//            return
+//        }
+//        let venueCoordinates = CLLocationCoordinate2DMake(venue.latitude, venue.longitude)
+//
+//        let request = MKDirections.Request()
+//        let startPoint = MKPlacemark(
+//            coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+//        let endPoint = MKPlacemark(coordinate: venueCoordinates)
+//
+//        request.source = MKMapItem(placemark: startPoint)
+//        request.destination = MKMapItem(placemark: endPoint)
+//
+//        let path = MKDirections(request: request)
+//
+//        resetRoute(path)
+//
+//        path.calculate { response, error in
+//            guard let response = response else {
+//                print("Error: \(String(describing: error))")
+//                return
+//            }
+//            let route = response.routes[0]
+//            self.mapView.addOverlay(route.polyline)
+//            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
+//                                           edgePadding: UIEdgeInsets(top: 0.0, left: 100.0,
+//                                                                     bottom: 0.0, right: 100.0),
+//                                           animated: true)
+//        }
+//
+        let venuePlacemark = MKPlacemark(coordinate: venue.location!, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: venuePlacemark)
+        
+        mapItem.name = venue.name
+        mapItem.openInMaps(launchOptions: nil)
+    }
+    
+//    func resetRoute(_ route: MKDirections) {
+//        mapView.removeOverlays(mapView.overlays)
+//        routeArray.append(route)
+//        routeArray.map { $0.cancel() }
+//        routeArray.removeSubrange(0..<routeArray.count)
+//    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,14 +81,14 @@ class VenueSheetViewController: UIViewController {
         
         venueName.textAlignment = .left
         venueName.text = venue.name
-        venueName.font = UIFont.systemFont(ofSize: 20)
+        venueName.font = UIFont.boldSystemFont(ofSize: 22)
 
         self.view.addSubview(venueName)
         
         venueName.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            venueName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            venueName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             venueName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             venueName.heightAnchor.constraint(equalToConstant: 40)
         ])
@@ -63,7 +111,7 @@ class VenueSheetViewController: UIViewController {
             venueAddress.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40),
         ])
         
-        let venueButton = UIButton(type: .system, primaryAction: UIAction(title: "View Art", handler: { _ in
+        let venueButton = UIButton(type: .system, primaryAction: UIAction(title: "View Artwork", handler: { _ in
             self.openArtworkList()
         }))
 
@@ -83,9 +131,10 @@ class VenueSheetViewController: UIViewController {
             venueButton.heightAnchor.constraint(equalToConstant: 55)
         ])
         
-        let directionsButton = UIButton(type: .system)
+        let directionsButton = UIButton(type: .system, primaryAction: UIAction(title: "Open in Maps", handler: { _ in
+            self.routeToVenue(venue: self.venue)
+        }))
 
-        directionsButton.setTitle("Get Directions", for: .normal)
         directionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         directionsButton.setTitleColor(UIColor.systemBlue, for: .normal)
         directionsButton.backgroundColor = UIColor.systemGray5

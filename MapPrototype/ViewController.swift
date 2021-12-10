@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         mapView.delegate = self
         
         checkLocationPermissions()
-        createAnnotations(locations: venueLocations)
+        createAnnotations(venues: VenueModel().getVenues())
     }
     
     func setUpLocationManager() {
@@ -84,52 +84,6 @@ class ViewController: UIViewController {
             mapView.addAnnotation(annotation)
         }
     }
-    
-    func routeToVenue(_ venue: CLLocationCoordinate2D, _ name: String) {
-        guard let currentLocation = locationManager.location?.coordinate else {
-            print("Error: No user location available.  Check device settings.")
-            return
-        }
-        let venueCoordinates = CLLocationCoordinate2DMake(venue.latitude, venue.longitude)
-        
-        let request = MKDirections.Request()
-        let startPoint = MKPlacemark(
-            coordinate: CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
-        let endPoint = MKPlacemark(coordinate: venueCoordinates)
-        
-        request.source = MKMapItem(placemark: startPoint)
-        request.destination = MKMapItem(placemark: endPoint)
-        
-        let path = MKDirections(request: request)
-        
-        resetRoute(path)
-        
-        path.calculate { response, error in
-            guard let response = response else {
-                print("Error: \(String(describing: error))")
-                return
-            }
-            let route = response.routes[0]
-            self.mapView.addOverlay(route.polyline)
-            self.mapView.setVisibleMapRect(route.polyline.boundingMapRect,
-                                           edgePadding: UIEdgeInsets(top: 0.0, left: 100.0,
-                                                                     bottom: 0.0, right: 100.0),
-                                           animated: true)
-        }
-        
-        let venuePlacemark = MKPlacemark(coordinate: venueCoordinates, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: venuePlacemark)
-        
-        mapItem.name = name
-        mapItem.openInMaps(launchOptions: nil)
-    }
-    
-    func resetRoute(_ route: MKDirections) {
-        mapView.removeOverlays(mapView.overlays)
-        routeArray.append(route)
-        routeArray.map { $0.cancel() }
-        routeArray.removeSubrange(0..<routeArray.count)
-    }
 }
 
 extension ViewController: MKMapViewDelegate {
@@ -180,7 +134,7 @@ extension ViewController: MKMapViewDelegate {
                 vc.venue = selectedVenue
                 
                 self.present(vc, animated: true, completion: nil)
-                routeToVenue(view.annotation!.coordinate)
+//                routeToVenue(view.annotation!.coordinate, name: selectedVenue.name)
             }
         }
     }
