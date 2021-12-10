@@ -220,4 +220,8 @@ extension ViewController: CLLocationManagerDelegate {
         checkLocationAuthorization()
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error: \(String(describing: error))")
+    }
+    
 }
