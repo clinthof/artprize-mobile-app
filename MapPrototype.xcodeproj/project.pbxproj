@@ -9,13 +9,21 @@
 /* Begin PBXBuildFile section */
 		245D2EEF2744538A00B0D871 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2EEE2744538A00B0D871 /* AppDelegate.swift */; };
 		245D2EF12744538A00B0D871 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2EF02744538A00B0D871 /* SceneDelegate.swift */; };
-		245D2EF32744538A00B0D871 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2EF22744538A00B0D871 /* ViewController.swift */; };
 		245D2EF62744538A00B0D871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245D2EF42744538A00B0D871 /* Main.storyboard */; };
 		245D2EF82744538C00B0D871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 245D2EF72744538C00B0D871 /* Assets.xcassets */; };
 		245D2EFB2744538C00B0D871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245D2EF92744538C00B0D871 /* LaunchScreen.storyboard */; };
 		245D2F062744538C00B0D871 /* MapPrototypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2F052744538C00B0D871 /* MapPrototypeTests.swift */; };
 		245D2F112744538C00B0D871 /* MapPrototypeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245D2F102744538C00B0D871 /* MapPrototypeUITests.swift */; };
-		56D25D14275EA02200698FB3 /* VenueSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */; };
+		56AC7C242763DE590098C3BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C192763DE580098C3BE /* AppDelegate.swift */; };
+		56AC7C252763DE590098C3BE /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 56AC7C1A2763DE580098C3BE /* Base.lproj */; };
+		56AC7C262763DE590098C3BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56AC7C1B2763DE580098C3BE /* Assets.xcassets */; };
+		56AC7C272763DE590098C3BE /* ArtworkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C1C2763DE580098C3BE /* ArtworkListViewController.swift */; };
+		56AC7C292763DE590098C3BE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C1E2763DE590098C3BE /* SceneDelegate.swift */; };
+		56AC7C2A2763DE590098C3BE /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C1F2763DE590098C3BE /* Venue.swift */; };
+		56AC7C2B2763DE590098C3BE /* VenueSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C202763DE590098C3BE /* VenueSheetViewController.swift */; };
+		56AC7C2D2763DE590098C3BE /* ArtworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C222763DE590098C3BE /* ArtworkViewController.swift */; };
+		56AC7C2E2763DE590098C3BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C232763DE590098C3BE /* ViewController.swift */; };
+		56AC7C302763E9890098C3BE /* VenueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC7C2F2763E9890098C3BE /* VenueModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +47,6 @@
 		245D2EEB2744538A00B0D871 /* MapPrototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapPrototype.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		245D2EEE2744538A00B0D871 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		245D2EF02744538A00B0D871 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		245D2EF22744538A00B0D871 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		245D2EF52744538A00B0D871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		245D2EF72744538C00B0D871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		245D2EFA2744538C00B0D871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,7 +57,16 @@
 		245D2F0C2744538C00B0D871 /* MapPrototypeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapPrototypeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		245D2F102744538C00B0D871 /* MapPrototypeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPrototypeUITests.swift; sourceTree = "<group>"; };
 		245D2F122744538C00B0D871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueSheetViewController.swift; sourceTree = "<group>"; };
+		56AC7C192763DE580098C3BE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		56AC7C1A2763DE580098C3BE /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
+		56AC7C1B2763DE580098C3BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		56AC7C1C2763DE580098C3BE /* ArtworkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkListViewController.swift; sourceTree = "<group>"; };
+		56AC7C1E2763DE590098C3BE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		56AC7C1F2763DE590098C3BE /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
+		56AC7C202763DE590098C3BE /* VenueSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueSheetViewController.swift; sourceTree = "<group>"; };
+		56AC7C222763DE590098C3BE /* ArtworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkViewController.swift; sourceTree = "<group>"; };
+		56AC7C232763DE590098C3BE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		56AC7C2F2763E9890098C3BE /* VenueModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +117,18 @@
 		245D2EED2744538A00B0D871 /* MapPrototype */ = {
 			isa = PBXGroup;
 			children = (
+				56AC7C2F2763E9890098C3BE /* VenueModel.swift */,
 				245D2EEE2744538A00B0D871 /* AppDelegate.swift */,
 				245D2EF02744538A00B0D871 /* SceneDelegate.swift */,
-				245D2EF22744538A00B0D871 /* ViewController.swift */,
-				56D25D13275EA02200698FB3 /* VenueSheetViewController.swift */,
+				56AC7C192763DE580098C3BE /* AppDelegate.swift */,
+				56AC7C1C2763DE580098C3BE /* ArtworkListViewController.swift */,
+				56AC7C222763DE590098C3BE /* ArtworkViewController.swift */,
+				56AC7C1B2763DE580098C3BE /* Assets.xcassets */,
+				56AC7C1A2763DE580098C3BE /* Base.lproj */,
+				56AC7C1E2763DE590098C3BE /* SceneDelegate.swift */,
+				56AC7C1F2763DE590098C3BE /* Venue.swift */,
+				56AC7C202763DE590098C3BE /* VenueSheetViewController.swift */,
+				56AC7C232763DE590098C3BE /* ViewController.swift */,
 				245D2EF42744538A00B0D871 /* Main.storyboard */,
 				245D2EF72744538C00B0D871 /* Assets.xcassets */,
 				245D2EF92744538C00B0D871 /* LaunchScreen.storyboard */,
@@ -236,7 +260,9 @@
 			files = (
 				245D2EFB2744538C00B0D871 /* LaunchScreen.storyboard in Resources */,
 				245D2EF82744538C00B0D871 /* Assets.xcassets in Resources */,
+				56AC7C252763DE590098C3BE /* Base.lproj in Resources */,
 				245D2EF62744538A00B0D871 /* Main.storyboard in Resources */,
+				56AC7C262763DE590098C3BE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +287,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				245D2EF32744538A00B0D871 /* ViewController.swift in Sources */,
+				56AC7C2A2763DE590098C3BE /* Venue.swift in Sources */,
+				56AC7C292763DE590098C3BE /* SceneDelegate.swift in Sources */,
 				245D2EEF2744538A00B0D871 /* AppDelegate.swift in Sources */,
 				245D2EF12744538A00B0D871 /* SceneDelegate.swift in Sources */,
-				56D25D14275EA02200698FB3 /* VenueSheetViewController.swift in Sources */,
+				56AC7C242763DE590098C3BE /* AppDelegate.swift in Sources */,
+				56AC7C2E2763DE590098C3BE /* ViewController.swift in Sources */,
+				56AC7C272763DE590098C3BE /* ArtworkListViewController.swift in Sources */,
+				56AC7C302763E9890098C3BE /* VenueModel.swift in Sources */,
+				56AC7C2B2763DE590098C3BE /* VenueSheetViewController.swift in Sources */,
+				56AC7C2D2763DE590098C3BE /* ArtworkViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,8 +473,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N69HQYZRV4;
+				DEVELOPMENT_TEAM = S6VDK579W8;
 				INFOPLIST_FILE = MapPrototype/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,8 +493,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N69HQYZRV4;
+				DEVELOPMENT_TEAM = S6VDK579W8;
 				INFOPLIST_FILE = MapPrototype/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

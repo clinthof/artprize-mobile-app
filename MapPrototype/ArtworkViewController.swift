@@ -28,8 +28,6 @@ class ArtworkViewController: UIViewController, UITextViewDelegate {
         self.artistName.text = artwork.artist
         self.artworkDescription.text = artwork.description ?? ""
         
-        /* handling missing information for labels */
-        
         if artwork.description == nil {
             descriptionLabel.isHidden = true
         }

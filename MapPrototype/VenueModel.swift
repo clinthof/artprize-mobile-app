@@ -20,7 +20,12 @@ class VenueModel {
     
     func getVenues() -> [Venue] { return self.venues }
     
-    // TODO: Maybe add a getVenueByName() function to help facilitate transferring from drawer view to ArtworkListView?
+    func getVenueByName(name: String) -> Venue? {
+        if let i = venues.firstIndex(where: { $0.name == name }) {
+            return venues[i]
+        }
+        return nil
+    }
     
     fileprivate func createVenues() {
         venues.append(Venue(

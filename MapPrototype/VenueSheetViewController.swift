@@ -8,10 +8,10 @@
 import UIKit
 
 class VenueSheetViewController: UIViewController {
-    
-    var venueNameValue: String = ""
-    var venueAddressValue: String = ""
-    
+
+    var venue: Venue = VenueModel().getVenues()[0]
+    private var toArtworkList: UIStoryboardSegue!
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         
@@ -32,7 +32,7 @@ class VenueSheetViewController: UIViewController {
         let venueName = UILabel()
         
         venueName.textAlignment = .left
-        venueName.text = venueNameValue
+        venueName.text = venue.name
         venueName.font = UIFont.systemFont(ofSize: 20)
 
         self.view.addSubview(venueName)
@@ -48,7 +48,7 @@ class VenueSheetViewController: UIViewController {
         let venueAddress = UILabel()
         
         venueAddress.textAlignment = .left
-        venueAddress.text = venueAddressValue
+        venueAddress.text = venue.address
         venueAddress.textColor = UIColor.systemGray
         venueAddress.adjustsFontSizeToFitWidth = false
         venueAddress.lineBreakMode = .byWordWrapping
@@ -63,9 +63,10 @@ class VenueSheetViewController: UIViewController {
             venueAddress.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40),
         ])
         
-        let venueButton = UIButton(type: .system)
+        let venueButton = UIButton(type: .system, primaryAction: UIAction(title: "View Art", handler: { _ in
+            self.openArtworkList()
+        }))
 
-        venueButton.setTitle("View Art", for: .normal)
         venueButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         venueButton.setTitleColor(UIColor.white, for: .normal)
         venueButton.backgroundColor = UIColor.systemBlue
@@ -101,6 +102,17 @@ class VenueSheetViewController: UIViewController {
             directionsButton.heightAnchor.constraint(equalToConstant: 55)
         ])
         
+    }
+    
+    func openArtworkList() {
+        print("view artwork list tapped!!!!")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "artworkListController") as! ArtworkListViewController
+        
+        navigationController.artworks = venue.artworks
+        navigationController.venueName = venue.name
+        self.present(navigationController, animated: true, completion: nil)
     }
     
 }

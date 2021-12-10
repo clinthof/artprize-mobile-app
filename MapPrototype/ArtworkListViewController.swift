@@ -13,15 +13,16 @@ class ArtworkListViewController: UITableViewController {
     @IBOutlet weak var topBar: UINavigationItem!
     @IBOutlet var artListTable: UITableView!
     
-    var artworks : [Artwork]?
+    var artworks: [Artwork]?
+    var venueName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        let model = VenueModel()
-        self.artworks = model.getVenues()[0].artworks // TODO: set up for different venues
-        topBar.title = model.getVenues()[0].name
+
+        self.artworks = artworks!
+        topBar.title = venueName!
     }
     
     // MARK: UITableViewDataSource
