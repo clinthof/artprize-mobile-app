@@ -16,6 +16,7 @@ We will override two of the delegate functions within this: didUpdateLocations, 
 
 ### User location functions
 With a location manager defined, the next step is to begin writing functions to handle the user location.
+<img width="93" alt="Screen Shot 2021-12-10 at 4 28 41 PM" src="https://user-images.githubusercontent.com/73394309/145643611-4c33be64-6a88-491f-96c6-d659a75be7c6.png">
 
 Write a new function named setUpLocationManager.  This will be 
 
