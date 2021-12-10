@@ -50,6 +50,9 @@ class ViewController: UIViewController {
     func checkLocationAuthorization() {
         switch locationManager.authorizationStatus {
         case .authorizedAlways:
+            mapView.showsUserLocation = true
+            centerOnUserLocation()
+            locationManager.startUpdatingLocation()
             break
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
