@@ -70,6 +70,12 @@ case .notDetermined:
     print("Unknown/other location permissions (fatal)")
 }
 ```
+---
+**Note**
+
+When running in a simulator rather than a physical iOS device, the simulator cannot deduce its current location.  Use Features > Location > Custom Location and enter geocoordinates to generate a simulated user location.
+
+---
 In either case of the user authorizing constant location tracking or just when in use, we will tell the mapView to show the user location and call ``centerOnUserLocation``, which will be written later.  We will then start updating the location.  If the user has denied the request, or the services are restricted in settings, print a specific statement to the console.  Again, this would ideally be handled with a custom alert so that the user is aware of what went wrong.  If not determined, we will simply request the location for when the application is in use as a constant location outside of using the app is not relevant.  Otherwise, if the state is unknown, print a statement indicating so to the console.
 
 The next important function is ``centerOnUserLocation`` as it is called in some cases of the previous function.  This will just make sure that the screen's focal point is the user's current location.  First, unwrap ``locationManager.location?.coordinate`` via optional binding into a variable ``location`` and initialize an ``MKCoordinateRegion`` to center on this location.  Set the ``latitudinalMeters`` and ``longitudinalMeters`` each to 10000 (this is more appropriately done with a global constant) and call ``setRegion`` on the ``mapView`` to center on the predefined region.
@@ -83,15 +89,26 @@ func centerOnUserLocation() {
     }
 }
 ```
+The simulated location should now appear on the map at the specified coordinates, like so:
+<p align="center">
+    <img width="200" alt="Screen Shot 2021-12-10 at 9 13 05 PM" src="https://user-images.githubusercontent.com/73394309/145660577-3c7b9ada-d957-404d-bd43-b3c5172ac41a.png">
+</p>
+
+
 ### Delegate Extensions
 Because the main view controller conforms to both the ``MKMapViewDelegate`` and ``CLLocationManagerDelegate`` protocols, it must implement their required functions.  This can be done a few different ways, but Swift style practices suggest these in extensions of the ViewController for better code organization.  
 
-In the ``CLLocationManagerDelegate``, we will now write the bodies of the previously mentioned functions.  For ``didUpdateLocations``, we will need to unwrap ``locations.last``, this time using the ``guard`` syntax so that the function will return on nil.  The purpose of this function is to update the location on the map when it changes (e.g., when the user moves, etc.), so we will want a variable holding the coordinates of their last known location.  Next, define and initialize a region variable similar to how it was done in ``centerOnUserLocation``, this time centered on the user's last known location, and finally set the ``mapView`` region to this region.  The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift) can be referenced to see how these functions are written.
+In the ``CLLocationManagerDelegate``, we will now write the bodies of the previously mentioned functions.  
+* For ``didUpdateLocations``, we need to unwrap ``locations.last``, this time using the ``guard`` syntax so that the function will return on nil.  The purpose of this function is to update the location on the map when it changes (e.g., when the user moves, etc.), so we will want a variable holding the coordinates of their last known location.  Next, define and initialize a region variable similar to how it was done in ``centerOnUserLocation``, this time centered on the user's last known location, and finally set the ``mapView`` region to this region.  
+* ``didChangeAuthorization`` is used to track any state changes to the application's location use authorization.  Call ``checkLocationAuthorization`` in its body.
+* The ``didFailWithError`` function signature is similar to ``didChangeAuthorization``, but its second parameter is instead an error.  For now, in this case, print ```swift "Error: \(String(describing: error))"``` to the console.  The format of the printed error is necessary for easier debugging.
+
+The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift) can be referenced to see how these functions are written.
 
 ---
 **Note**
 
-Per the [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift), you might also consider overriding the ``MKMapViewDelegate`` ``rendererFor`` function to change the line color (and potentially other ``polyline`` properties).  We used red, but there are several available.
+As is done in the source code, you might also consider overriding the ``MKMapViewDelegate`` ``rendererFor`` function to change the line color (and potentially other ``polyline`` properties).  We used red, but there are several available.
 
 ---
 
