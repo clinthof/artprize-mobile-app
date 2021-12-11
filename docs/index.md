@@ -390,6 +390,10 @@ In the ``CLLocationManagerDelegate``, we will now write the bodies of the previo
 * ``didChangeAuthorization`` is used to track any state changes to the application's location use authorization.  Call ``checkLocationAuthorization`` in its body.
 * The ``didFailWithError`` function signature is similar to ``didChangeAuthorization``, but its second parameter is instead an error.  For now, in this case, print ```swift "Error: \(String(describing: error))"``` to the console.  The format of the printed error is necessary for easier debugging.
 
+Next is the `MKMapViewDelegate` protocol functions.  Again, these functions will be added via an extension in the main view controller.  There are three functions implemented here, two of which are important:
+* The first function is essential for performance while generating the map annotation views.  There are different ways to do this, but this is essentially the go-to as it is far easier on the device performance-wise.  Similar to why we dequeue table cells in a UITableView, this concept is applicable to annotation views to reuse `MKAnnotationViews` with an identifier.  This is also the function in which we can specify the annotation callout's attributes, like its accessory views.  What's returned is an `MKMarkerAnnotationView`.
+* The next function handles when a venue callout has been tapped via `calloutAccessoryControlTapped`.  Given that the application uses a third-party library for the `VenueSheetViewController`, it is important to check the software level of the device (in this case, that it is iOS 15+).  When tapped, the halfsheet is presented displaying venue-specific information.
+
 The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift) can be referenced to see how these functions are written.
 
 ---
