@@ -361,7 +361,22 @@ func centerOnUserLocation() {
     }
 }
 ```
-The simulated location should now appear on the map at the specified coordinates, like so:
+Finally, we need to generate the annotations and views for the venue data described earlier.  To do so, a basic function `createAnnotations` that takes a list of venues iterates through the list, creating an `MKPointAnnotation` with the respective venue's location, name, and address infromation and adds it to the map.
+
+```swift
+func createAnnotations(venues: [Venue]) {
+for venue in venues {
+    let annotation = MKPointAnnotation(
+	__coordinate: venue.location!,
+	title: venue.name,
+	subtitle: venue.address
+    )
+    mapView.addAnnotation(annotation)
+  }
+}
+```
+
+The simulated location and generated venue annotations should now appear on the map at the specified coordinates, like so:
 <p align="center">
     <img width="200" alt="Screen Shot 2021-12-10 at 9 13 05 PM" src="https://user-images.githubusercontent.com/73394309/145660577-3c7b9ada-d957-404d-bd43-b3c5172ac41a.png">
 </p>
