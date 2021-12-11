@@ -405,7 +405,7 @@ As is done in the source code, you might also consider overriding the ``MKMapVie
 
 ## Connecting MapView and Venue, Artwork Views
 
-Thus far, we've explored setting up all of our app's main views, but don't have a way to get from the map to an individual venue and list of artwork. In the spirit of iOS Maps app, we explored several ways to display a "bottom half drawer" overtop of the map view. While there are some well-reviewed community-developed options, it seemed that going forward the best solution is `UISheetPresentationController`. This allows the app the present some options and information to the user without losing sight of map location or needing to fully leave that view. 
+Thus far, we've explored setting up all of our app's main views, but don't have a way to get from the map to an individual venue and list of artwork. In the spirit of iOS Maps app, we explored several ways to display a "bottom half drawer" overtop of the map view. While there are some well-reviewed community-developed options, it seemed that going forward the best solution is `UISheetPresentationController`. This allows the app to present some options and information to the user without losing sight of map location or needing to fully leave that view. 
 
 The `UISheetPresentationController` has several customizations that can be used to control the height (detent) and scrolling/swiping UX:
 
@@ -423,6 +423,8 @@ if #available(iOS 15.0, *) {
 ```
 
 In a production app supporting iOS < v.15.0, an alternative would need to be implemented, such as a standard navigation controller.
+
+In [`VenueSheetViewController`](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/VenueSheetViewController.swift), presented as a sheet, we display buttons to navigate to the venue view, or to pop to Maps for directions.
 
 ## Further Reading and Conclusions
 ### Full directions functionality
