@@ -5,6 +5,271 @@
 ### Setting up the environment
 Make sure you have access to XCode and at least XCode version 12.0.0 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without and pod installation.
 ## Coding Instructions
+
+### Defining the structure of our data
+
+---
+**Note**
+
+We opted to store all data relevant to venues and artworks within the app itself. However, a more production-ready approach could be some sort of cloud storage integration such as Firebase. Cloud integrations go a bit beyond the scope of this tutorial, so we'll instead be making use of data defined directly within this program's classes.
+
+---
+
+At a high level, the data is structured around venues as our largest hierarchical containers. Each `Venue` structure contains the following attributes:
+
+| Attribute Name | Data Type                 | Description                           |
+| -------------- | ------------------------- | ------------------------------------- |
+| `name`         | `String?`                 | The name of the venue                 |
+| `image`        | `UIImage?`                | An image stored in Assets.xcassets    |
+| `address`      | `String?`                 | The address of the venue              |
+| `location`     | `CLLocationCoordinate2D?` | The coordinates of the venue          |
+| `artworks`     | `[Artwork]?`              | An array of artworks within the venue |
+
+As you can see, each `Venue` contains an array of `Artwork` objects. The attributes contained in each `Artwork` object are as follows:
+
+| Attribute Name | Data Type  | Description                         |
+| -------------- | ---------- | ----------------------------------- |
+| `title`        | `String?`  | The title of the work               |
+| `image`        | `UIImage?` | An image of the work                |
+| `artist`       | `String?`  | The name of the artist of the work  |
+| `description`  | `String?`  | A long-form description of the work |
+| `medium`       | `String?`  | The medium of the work              |
+| `width`        | `String?`  | The width of the work               |
+| `height`       | `String?`  | The height of the work              |
+
+### Providing the data
+
+Now that we have the structure to our data, we can define it within the `VenueModel` class. Here we simply created a helper function `createVenues()` that will fill out the `Venue` and `Artwork` structures. Additionally, we've defined a `getVenuesByName()` function, which will be used for pulling up the correct venue when we select its corresponding annotation on the map.
+
+```swift
+import Foundation
+import CoreLocation
+import UIKit
+
+class VenueModel {
+    fileprivate var venues : [Venue] = [Venue]()
+
+    init() { createVenues() }
+
+    func getVenues() -> [Venue] { return self.venues }
+
+		func getVenueByName(name: String) -> Venue? {
+        if let i = venues.firstIndex(where: { $0.name == name }) {
+            return venues[i]
+        }
+        return nil
+    }
+    
+    fileprivate func createVenues() {
+        venues.append(Venue(
+            name: "Bitter End Coffee House",
+            image: UIImage(named: "bitterEnd"),
+            address: "752 Fulton St W, Grand Rapids, MI 49504",
+            location: CLLocationCoordinate2D(
+                latitude: 42.963360,
+                longitude: -85687172
+            ),
+            artworks: [
+                Artwork(
+                    title: "Grand Rapids Skyline",
+                    image: UIImage(named: "bitterEnd_1"),
+                    artist: "John Doe",
+                    description: "An interesting description",
+                    medium: "Photography",
+                    width: "24 in",
+                    height: "18.5 in"
+                )
+                // Define additional Artwork objects here
+            ]
+        ))
+        // Define additional Venue objects here
+    }
+}
+```
+
+With all of this defined, we're ready to create the views that will facilitate this data!
+
+### Creating our views in the storyboard
+
+We'll start by adding a UINavigationController in the Storyboard view. This will be useful later when we want to navigate between our UITableView containing the list of artworks, and the View containing more detail about an individual artwork.
+
+<p align="center">
+    <img width="512" alt="Screen Shot 2021-12-10 at 9 13 05 PM" src="https://user-images.githubusercontent.com/45302428/145661706-c1423b7d-7361-462d-b232-67973879cebf.png">
+</p>
+
+You'll notice that the UINavigationController comes already equipped with a UITableView. We'll be holding onto that as it's just what we need for our list. Within this UITableView, you'll see a single prototype TableViewCell. Feel free to edit the look of this to your liking. We'll base our cell off of the "Subtitle" style, with an image included.
+
+Next, we'll set up the foundation for our detailed artwork view. Simply place a standard ViewController next to our UITableView, and create a segue from the prototype TableViewCell to the ViewController we just created.
+
+<p align="center">
+    <img width="720" alt="Screen Shot 2021-12-10 at 9 13 05 PM" src="https://user-images.githubusercontent.com/45302428/145661745-09b3e526-6195-4065-bbe0-4cd90cc7a4cd.png">
+</p>
+
+
+Within this newly-created ViewController, we placed all the necessary labels and images that correspond to our data. If you're following along exactly, from top to bottom we have:
+
+- An ImageView for an image of the artwork
+- A TextView for the title of the work
+- A Label for the name of the artist
+- A Label (which will remain static) to signify the following description
+- A TextView for the long-form description
+- A Label for the medium
+- A Label for the dimensions (width and height)
+
+We'll assume you know how to set up things like constraints, but this is how ours looks at a glance:
+
+<p align="center">
+    <img width="720" alt="Screen Shot 2021-12-10 at 9 13 05 PM" src="https://user-images.githubusercontent.com/45302428/145661751-7bf6fa68-e835-400c-bd02-9bfb719198a3.png">
+</p>
+
+
+### The `ArtworkListViewController` class
+
+Now that our storyboard is ready to go, we can get to setting up the controller for our TableView. We created a new class called `ArtworkListViewController` that subclasses `UITableViewController`, through which we already inherit the required `UITableViewDataSource` and `UITableViewDelegate` protocols.
+
+Next, we'll go ahead and set up our outlets from the view in the storyboard to our newly-created class. Don't forget to associate the class and its view within the storyboard. We do this by selecting the view and writing "ArtworkListViewController" (without quotes) in the Class field in the Identity Inspector. With that done, here's what our class looks like so far:
+
+```swift
+import Foundation
+import UIKit
+
+class ArtworkListViewController: UITableViewController {
+
+    @IBOutlet weak var topBar: UINavigationItem!
+    @IBOutlet var artListTable: UITableView!
+
+    var artworks: [Artwork]?
+    var venueName: String?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+
+        self.artworks = artworks!
+        topBar.title = venueName!
+    }
+}
+```
+
+The first two member variables within the class are the list of Artwork objects within this venue, `artworks`, and the name of the venue, `venueName` which will be added to the top navigation bar.
+
+What still needs doing is implementing the required function overrides for the `UITableViewDataSource` and `UITableViewDelegate` protocols:
+
+```swift
+// MARK: UITableViewDataSource
+override func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+}
+
+override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if let art = self.artworks {
+        return art.count
+    } else {
+        return 0
+    }
+}
+
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = self.tableView.dequeueReusableCell(withIdentifier: "ArtworkCell", for: indexPath)
+
+    if let artwork = self.artworks?[indexPath.row] {
+        var content = cell.defaultContentConfiguration()
+
+        content.text = artwork.title
+        content.secondaryText = artwork.artist
+        content.image = artwork.image
+        content.imageProperties.maximumSize = CGSize(width: 128, height: 128)
+
+        cell.contentConfiguration = content
+    }
+    return cell
+}
+```
+
+You may notice within the definition for `cell` in the last overridden `tableView()` function, we reference a "reusable cell" with a specific identifier, in this case `"ArtworkCell"`. We'll want to define that in our storyboard by selecting the prototype cell in our TableView, going to the Attributes Inspector, and filling the Identifier field with "ArtworkCell" without quotes.
+
+Next, we're going to need some way to pass the relevant artwork information from a given cell to the ViewController on the other end of the segue. By overriding the `prepare(for segue)` function, we can do just that. This will be last thing we need to add to our `ArtworkListViewController` class.
+
+```swift
+// Pass Artwork object from relevant cell to segue destination (ArtworkViewController)
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "artworkViewSegue" {
+        if let artworkVC = segue.destination as? ArtworkViewController {
+            let selectedRow = tableView.indexPathForSelectedRow!.row
+            
+            artworkVC.artwork = artworks![selectedRow]
+        }
+    }
+}
+```
+
+Just like before, where we had to provide an identifier for a prototype cell, we also need to provide an identifier for the segue between these two views. Simply select the segue in the storyboard and provide the relevant identifier in the Attributes inspector, under Identifier.
+
+You may also notice that we reference an `ArtworkViewController` class, as well as some of its member variables. We haven't created that yet, so let's do that.
+
+### The `ArtworkViewController` class
+
+With everything set up for our TableViewController, we can move on to our detailed artwork view. Let's start by creating a new class to manage this ViewController, `ArtworkViewController`. Again, don't forget to associate this with the view by changing its relevant Class field in the storyboard.
+
+We can start getting things set up by creating outlets to just about everything in the view, like so:
+
+```swift
+import Foundation
+import UIKit
+
+class ArtworkViewController: UIViewController, UITextViewDelegate {
+    
+    @IBOutlet weak var artworkImage: UIImageView!
+    @IBOutlet weak var artworkTitle: UITextView!
+    @IBOutlet weak var artistName: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var artworkDescription: UITextView!
+    @IBOutlet weak var mediumLabel: UILabel!
+    @IBOutlet weak var dimensionsLabel: UILabel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+}
+```
+
+Our next task is to fill these UI elements with the relevant information. If you looked closely at the `prepare(for segue)` function in the last section, you might've noticed that we passed an `Artwork` object to the `ArtworkViewController` class, so let's create that member variable now under our outlets:
+
+```swift
+var artwork: Artwork!
+```
+
+This object is the source of the artwork's relevant information, and so we can go about filling the UI elements with data within the `viewDidLoad()` function:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    self.artworkImage.image = artwork.image
+    self.artworkTitle.text = artwork.title
+    self.artistName.text = artwork.artist
+    self.artworkDescription.text = artwork.description ?? ""
+    
+    if artwork.description == nil {
+        descriptionLabel.isHidden = true
+    }
+    
+    self.mediumLabel.text?.append(artwork.medium ?? "")
+    
+    if (artwork.width != nil) || (artwork.height != nil) {
+        self.dimensionsLabel.text?.append((artwork.width!) + " x " + (artwork.height!))
+    }
+    
+    // removes leading edge padding from UITextViews
+    self.artworkTitle.textContainer.lineFragmentPadding = 0.0
+    self.artworkDescription.textContainer.lineFragmentPadding = 0.0
+}
+```
+
+And that's it! Next we can move on to integrating MapKit at the core of our application!
+
 ### Setting up MapKit
 The first step in using the MapKit API is importing it into the project.  Import ``MapKit`` at the top level of the main ViewController.  To get a MapView, pen the object library, find an ``MKMapView``, and drag it into the main screen, setting the margins to the edges beyond the safe zone.  In the main view controller, create an outlet named mapView of type ``MKMapView?`` to reference this view.  Lastly, in the ``viewDidLoad`` function, set the mapView's delegate to self. This could alternatively be done programmatically by defining an MKMapView object and editing some of its properties.
 
