@@ -1,4 +1,4 @@
-# iOS MaoKit ArtPrize Application
+# iOS MapKit ArtPrize Application
 
 ## Overview
 
@@ -85,12 +85,17 @@ func centerOnUserLocation() {
 }
 ```
 ### Delegate Extensions
-Because the main view controller conforms to both the ``MKMapViewDelegate`` and ``CLLocationManagerDelegate`` protocols, it must implement their required functions.  This can be done a few different ways, but Swift style practices suggest these in extensions of the ViewController for better code organization.  In the ``CLLocationManagerDelegate``, we will now write the bodies of the previously mentioned functions.  For ``didUpdateLocations``, we will need to unwrap ``locations.last``, this time using the ``guard`` syntax so that the function will return on nil.  The purpose of this function is to update the location on the map when it changes (e.g., when the user moves, etc.), so we will want a variable holding the coordinates of their last known location.  Next, define and initialize a region variable similar to how it was done in ``centerOnUserLocation``, this time centered on the user's last known location, and finally set the ``mapView`` region to this region.
+Because the main view controller conforms to both the ``MKMapViewDelegate`` and ``CLLocationManagerDelegate`` protocols, it must implement their required functions.  This can be done a few different ways, but Swift style practices suggest these in extensions of the ViewController for better code organization.  
+
+In the ``CLLocationManagerDelegate``, we will now write the bodies of the previously mentioned functions.  For ``didUpdateLocations``, we will need to unwrap ``locations.last``, this time using the ``guard`` syntax so that the function will return on nil.  The purpose of this function is to update the location on the map when it changes (e.g., when the user moves, etc.), so we will want a variable holding the coordinates of their last known location.  Next, define and initialize a region variable similar to how it was done in ``centerOnUserLocation``, this time centered on the user's last known location, and finally set the ``mapView`` region to this region.  The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift) can be referenced to see how these functions are written.
 
 ---
 **Note**
 
-Per the [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift),
+Per the [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift), you might also consider overriding the ``MKMapViewDelegate`` ``rendererFor`` function to change the line color (and potentially other ``polyline`` properties).  We used red, but there are several available.
 
 ---
+
 ## Further Reading and Conclusions
+### Full directions functionality
+For the sake of this tutorial, we did not fully implement directions within the application as this became lengthy and complex.  However, this is still something supported by MapKit, and can be done with an MKDirections object and directions requests.  This is partially implemented in the code for demonstration, but requires more in order to give step-by-step routes with time estimates, travel methods, and dozens of other features.  For our purposes, we just used a button on the venue halfsheet to redirect to iOS's existing maps application, but this functionality is still very much accessible.  We geared our focus more toward displaying venue information on a map that gives visitors a better idea of what is nearby.
