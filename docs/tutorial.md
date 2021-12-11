@@ -4,14 +4,13 @@
 
 ## Getting Started
 ### Setting up the environment
-
+Make sure you have access to XCode and at least XCode version 12.0.0 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without and pod installation.
 ## Coding Instructions
-### General
 ### Setting up MapKit
-The first step in using the MapKit API is importing it into the project.  Since the MapKit library is already in Swift, it can simply be imported at the top level of the main ViewController.  Next, open the object library, find an ``MKMapView``, and drag it into the main screen, setting the margins to the edges beyond the safe zone.  In the main view controller, create an outlet named mapView of type ``MKMapView?`` to reference this view.  Lastly, in the ``viewDidLoad`` function, set the mapView's delegate to self. This could alternatively be done programmatically by defining an MKMapView object and editing some of its properties.
+The first step in using the MapKit API is importing it into the project.  Import ``MapKit`` at the top level of the main ViewController.  To get a MapView, pen the object library, find an ``MKMapView``, and drag it into the main screen, setting the margins to the edges beyond the safe zone.  In the main view controller, create an outlet named mapView of type ``MKMapView?`` to reference this view.  Lastly, in the ``viewDidLoad`` function, set the mapView's delegate to self. This could alternatively be done programmatically by defining an MKMapView object and editing some of its properties.
 
 ### Setting up a location manager
-Import CoreLocation under MapKit.  Define a new private constant locationManager and initialize it as a ``CLLocationManager`` object.  This object is what allows you to deliver and handle location-related events in the application.  Right now, we will use it to handle the user's location information and changes to its state.  To do so, the next thing to be done is make the view controller conform to the ``CLLocationManagerDelegate`` protocol via an extension below the primary class.  
+Import ``CoreLocation`` under ``MapKit``.  Define a new private constant locationManager and initialize it as a ``CLLocationManager`` object.  This object is what allows you to deliver and handle location-related events in the application.  Right now, we will use it to handle the user's location information and changes to its state.  To do so, the next thing to be done is make the view controller conform to the ``CLLocationManagerDelegate`` protocol via an extension below the primary class.  
 
 We will override three of the delegate functions within this: ``didUpdateLocations``, which will be used to update the map based on user location changes; ``didFailWithError``, which is recommended by the Apple documentation to respond to any errors while updating the location; and ``didChangeAuthorization``, checking the state of the user's location permissions given to the application.  For now, leave these empty as we will write functions to handle these conditions and call them in them later on.
 
@@ -99,3 +98,5 @@ Per the [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/
 ## Further Reading and Conclusions
 ### Full directions functionality
 For the sake of this tutorial, we did not fully implement directions within the application as this became lengthy and complex.  However, this is still something supported by MapKit, and can be done with an MKDirections object and directions requests.  This is partially implemented in the code for demonstration, but requires more in order to give step-by-step routes with time estimates, travel methods, and dozens of other features.  For our purposes, we just used a button on the venue halfsheet to redirect to iOS's existing maps application, but this functionality is still very much accessible.  We geared our focus more toward displaying venue information on a map that gives visitors a better idea of what is nearby.
+
+Ultimately, this tutorial merely produces a foundation from which one could build off of and add several new features to.  Additionally, there is not necessarily a single way to produce the same outcome; alternative methods are available to create the application.
