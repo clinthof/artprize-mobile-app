@@ -24,6 +24,7 @@ At a high level, the data is structured around venues as our largest hierarchica
 | `address`      | `String?`                 | The address of the venue              |
 | `location`     | `CLLocationCoordinate2D?` | The coordinates of the venue          |
 | `artworks`     | `[Artwork]?`              | An array of artworks within the venue |
+| `description`  | `String?`                 | A description of the venue            |
 
 As you can see, each `Venue` contains an array of `Artwork` objects. The attributes contained in each `Artwork` object are as follows:
 
