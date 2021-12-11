@@ -1,7 +1,6 @@
-# iOS MapKit ArtPrize Application
-
+# iOS MapKit ArtPrize Application 
 ## Overview
-
+(more to come)
 ## Getting Started
 ### Setting up the environment
 Make sure you have access to XCode and at least XCode version 12.0.0 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without and pod installation.
