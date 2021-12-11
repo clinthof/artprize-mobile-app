@@ -8,6 +8,7 @@ iOS's MapKit is an API that offers access to much of the native maps application
 <img src="https://user-images.githubusercontent.com/73394309/145662106-cb1c208b-6f3a-4f7b-b6b9-21ec1e82087b.png" width="200" height="420">
 <img src="https://user-images.githubusercontent.com/73394309/145662130-528ee39b-b1a0-4f33-a743-a6c64fd2b837.png" width="200" height="420">
 </div>
+
 ## Getting Started
 ### Setting up the environment
 Make sure you have access to XCode and at least XCode version 12.0.0 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without and pod installation.
