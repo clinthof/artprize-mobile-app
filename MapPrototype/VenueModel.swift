@@ -32,7 +32,7 @@ class VenueModel {
             name: "Bitter End Coffee House",
             image: UIImage(named: "bitterEnd"),
             address: "752 Fulton St W, Grand Rapids, MI 49504",
-            location: CLLocationCoordinate2D(latitude: 42.963360, longitude: -85687172),
+            location: CLLocationCoordinate2D(latitude: 42.963360, longitude: -85.687172),
             artworks: [
                 Artwork(
                     title: "Grand Rapids # 1 & 2",
@@ -70,7 +70,8 @@ class VenueModel {
                     width: nil,
                     height: nil
                 )
-            ]
+            ],
+            description: "Situated in a renovated 100 year old bank at the original Western border of the city, the bitter end coffehouse is located 3 blocks west of the downtown GVSU campus and is open 24 hours/7days a week. The coffeehouse maintains the original century-old architecture and a European ambiance: tile floors, oak woodwork, leaded glass windows and a 12 foot tin ceiling. Walls are decorated with unique, interesting, and unusual artwork. The bitter end features a large variety of organic, Fair Trade espresso beverages, organic, Fair Trade varietals, organic loose leaf teas and a wide selection of smoothies as well as fresh bagels, baked goods and pastries. Music: Jazz/Blues/Folk. Free wireless internet is available and ample free parking is available in the City Lot across the street. "
         ))
         venues.append(Venue(
             name: "Grand Rapids Public Museum",
@@ -114,7 +115,8 @@ class VenueModel {
                     width: "94.5 in",
                     height: "41 in"
                 )
-            ]
+            ],
+            description: "Located on the banks of the Grand River, Grand Rapids Public Museum is located in the most highly visible corridor for the ArtPrize viewers."
         ))
         venues.append(Venue(
             name: "Canopy by Hilton Grand Rapids",
@@ -158,7 +160,8 @@ class VenueModel {
                     width: "4 ft",
                     height: "4 ft"
                 )
-            ]
+            ],
+            description: "Canopy by Hilton is a hotel located in Studio Park. This stunning hotel offers a mid-century modern design that pays homage to the history of Grand Rapids. Beautiful 8 story building with plenty of natural light. First 2 floors open to the public for easy visibility and access."
         ))
         venues.append(Venue(
             name: "Brush Studio",
@@ -202,7 +205,8 @@ class VenueModel {
                     width: "39 in",
                     height: "39 in"
                 )
-            ]
+            ],
+            description: "Brush Studio is the premier \"paint and sip\" location in West Michigan. We use art as entertainment and host weekly classes, private events, and much more in our spacious and upscale studio. Art is our jam! We welcome artists of all ages and artistic abilities and love to host events with and without painting."
         ))
     }
 }

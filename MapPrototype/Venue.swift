@@ -17,17 +17,19 @@ struct Venue {
     let image : UIImage?
     let address : String?
     let location : CLLocationCoordinate2D?
+    let description : String?
     let artworks : [Artwork]?
     
-    init(name: String?, image: UIImage?, address: String?, location: CLLocationCoordinate2D?, artworks: [Artwork]?) {
+    init(name: String?, image: UIImage?, address: String?, location: CLLocationCoordinate2D?, artworks: [Artwork]?, description: String?) {
         self.name = name
         self.image = image
         self.address = address
         self.location = location
+        self.description = description
         self.artworks = artworks
     }
     
-    init() { self.init(name: nil, image: nil, address: nil, location: nil, artworks: nil) }
+    init() { self.init(name: nil, image: nil, address: nil, location: nil, artworks: nil, description: nil) }
 }
 
 /**

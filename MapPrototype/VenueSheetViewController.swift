@@ -118,7 +118,7 @@ class VenueSheetViewController: UIViewController {
         venueButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         venueButton.setTitleColor(UIColor.white, for: .normal)
         venueButton.backgroundColor = UIColor.systemBlue
-        venueButton.layer.cornerRadius = 5
+        venueButton.layer.cornerRadius = 8
         
         self.view.addSubview(venueButton)
         
@@ -138,7 +138,7 @@ class VenueSheetViewController: UIViewController {
         directionsButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         directionsButton.setTitleColor(UIColor.systemBlue, for: .normal)
         directionsButton.backgroundColor = UIColor.systemGray5
-        directionsButton.layer.cornerRadius = 5
+        directionsButton.layer.cornerRadius = 8
         
         self.view.addSubview(directionsButton)
         
@@ -151,16 +151,33 @@ class VenueSheetViewController: UIViewController {
             directionsButton.heightAnchor.constraint(equalToConstant: 55)
         ])
         
+        let venueDescription = UITextView()
+        
+        venueDescription.text = venue.description
+        venueDescription.textColor = UIColor.systemGray
+        venueAddress.font = UIFont.systemFont(ofSize: 14)
+        
+        venueDescription.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(venueDescription)
+        
+        NSLayoutConstraint.activate([
+            venueDescription.topAnchor.constraint(equalTo: directionsButton.bottomAnchor, constant: 20),
+            venueDescription.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            venueDescription.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40),
+            venueDescription.heightAnchor.constraint(equalToConstant: 200)
+        ])
+        
+        
     }
     
     func openArtworkList() {
-        print("view artwork list tapped!!!!")
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let navigationController = storyboard.instantiateViewController(withIdentifier: "artworkListController") as! ArtworkListViewController
+        let navigationController = storyboard.instantiateViewController(withIdentifier: "artworkListNavController") as! UINavigationController
+        let viewController = navigationController.viewControllers[0] as! ArtworkListViewController
         
-        navigationController.artworks = venue.artworks
-        navigationController.venueName = venue.name
+        viewController.artworks = venue.artworks
+        viewController.venueName = venue.name
         self.present(navigationController, animated: true, completion: nil)
     }
     
