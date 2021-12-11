@@ -134,7 +134,6 @@ extension ViewController: MKMapViewDelegate {
                 vc.venue = selectedVenue
                 
                 self.present(vc, animated: true, completion: nil)
-//                routeToVenue(view.annotation!.coordinate, name: selectedVenue.name)
             }
         }
     }
