@@ -10,7 +10,7 @@ iOS's MapKit is an API that offers access to much of the native maps application
 
 ## Getting Started
 ### Setting up the environment
-Make sure you have access to XCode and at least XCode version 12.0.0 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without and pod installation.
+Make sure you have access to XCode and at least XCode version 12.0.0 and at least iOS 15 installed on your device.  Conveniently, since the ``MapKit`` library is already in Swift, it can simply be imported into the project without pod installation.
 ## Coding Instructions
 
 ### Defining the structure of our data
@@ -392,7 +392,7 @@ In the ``CLLocationManagerDelegate``, we will now write the bodies of the previo
 
 Next is the `MKMapViewDelegate` protocol functions.  Again, these functions will be added via an extension in the main view controller.  There are three functions implemented here, two of which are important:
 * The first function is essential for performance while generating the map annotation views.  There are different ways to do this, but this is essentially the go-to as it is far easier on the device performance-wise.  Similar to why we dequeue table cells in a UITableView, this concept is applicable to annotation views to reuse `MKAnnotationViews` with an identifier.  This is also the function in which we can specify the annotation callout's attributes, like its accessory views.  What's returned is an `MKMarkerAnnotationView`.
-* The next function handles when a venue callout has been tapped via `calloutAccessoryControlTapped`.  Given that the application uses a third-party library for the `VenueSheetViewController`, it is important to check the software level of the device (in this case, that it is iOS 15+).  When tapped, the halfsheet is presented displaying venue-specific information.
+* The next function handles when a venue callout has been tapped via `calloutAccessoryControlTapped`.  Given that the application uses the newly available `UISheetPresentationController`, it is important to check the software level of the device (in this case, that it is iOS 15+).  When tapped, the halfsheet is presented displaying venue-specific information.
 
 The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapPrototype/ViewController.swift) can be referenced to see how these functions are written.
 
@@ -402,6 +402,27 @@ The [source code](https://github.com/clinthof/artprize-mobile-app/blob/main/MapP
 As is done in the source code, you might also consider overriding the ``MKMapViewDelegate`` ``rendererFor`` function to change the line color (and potentially other ``polyline`` properties).  We used red, but there are several available.
 
 ---
+
+## Connecting MapView and Venue, Artwork Views
+
+Thus far, we've explored setting up all of our app's main views, but don't have a way to get from the map to an individual venue and list of artwork. In the spirit of iOS Maps app, we explored several ways to display a "bottom half drawer" overtop of the map view. While there are some well-reviewed community-developed options, it seemed that going forward the best solution is `UISheetPresentationController`. This allows the app the present some options and information to the user without losing sight of map location or needing to fully leave that view. 
+
+The `UISheetPresentationController` has several customizations that can be used to control the height (detent) and scrolling/swiping UX:
+
+```swift
+if #available(iOS 15.0, *) {
+    if let sheet = vc.sheetPresentationController {
+	sheet.detents = [.medium(), .large()]
+	sheet.largestUndimmedDetentIdentifier = .medium
+	sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+	sheet.prefersGrabberVisible = true
+    }
+} else {
+    // Fallback on earlier versions
+}
+```
+
+In a production app supporting iOS < v.15.0, an alternative would need to be implemented, such as a standard navigation controller.
 
 ## Further Reading and Conclusions
 ### Full directions functionality
